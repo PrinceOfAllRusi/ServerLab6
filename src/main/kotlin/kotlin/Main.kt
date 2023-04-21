@@ -1,21 +1,17 @@
 
 import modul.SingletonObject.mod
 import tools.CommandProcessor
-import tools.input.InputSystem
 import org.koin.core.context.GlobalContext.startKoin
 import tools.ConversionXMLtoObject
+import tools.input.InputFile
 
-/**
- * Main
- *
- */
 fun main() {
 
     startKoin {
         modules(mod)
     }
  //   val convertor = ConversionXMLtoObject()
-    val input= InputSystem()
+    val input = InputFile("")
  //   convertor.convert(input)
 
     val commandProcessor: CommandProcessor = CommandProcessor()

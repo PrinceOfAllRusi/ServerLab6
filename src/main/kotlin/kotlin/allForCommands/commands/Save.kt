@@ -1,33 +1,20 @@
-package commands
+package allForCommands.commands
 
 
-import com.thoughtworks.xstream.XStream
 import commands.types.ArgsType
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import organization.MyCollection
 import organization.Organization
-import tools.input.Input
 import tools.WriteFile
 import tools.result.Result
 
-/**
- * Save
- *
- * @constructor Create empty Save
- */
 class Save: Command, KoinComponent {
 
     private val orgs: MyCollection<Organization> by inject()
     private val description: String = "сохранить коллекцию в файл"
     private val type: ArgsType = ArgsType.FILE
 
-    /**
-     * Action
-     *
-     * @param input
-     * @return
-     */
     override fun action(data: Map<String, Any>?): Result? {
 
         val wayCollection: String = data!!["wayCollection"].toString()
@@ -40,14 +27,11 @@ class Save: Command, KoinComponent {
 
         writer.write(wayOrgs, orgsXML)
 
-        return null
-    }
+        val result = Result(false)
+        result.setMessage("Done\n")
 
-    /**
-     * Get description
-     *
-     * @return
-     */
+        return result
+    }
     override fun getDescription(): String = description
     override fun getType(): ArgsType = type
 }

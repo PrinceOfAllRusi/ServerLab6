@@ -1,10 +1,7 @@
 package modul
 
-import commands.*
+import allForCommands.commands.*
 import commands.types.*
-import org.koin.core.module.dsl.createdAtStart
-import org.koin.core.module.dsl.named
-import org.koin.core.module.dsl.withOptions
 import org.koin.dsl.module
 import organization.MyCollection
 import organization.Organization

@@ -1,10 +1,11 @@
 package commands.types
 
+import tools.ConcreteCommand
 import tools.ReadFile
 import tools.input.Input
 
 class ProcessingTypeScript: ProcessingType {
-    override fun processing(input: Input): Map<String, Any>? {
+    override fun processing(input: Input, abstractCommand: ConcreteCommand): Map<String, Any>? {
         val reader = ReadFile()
         val s: String? = reader.read(input)
         if (s == null) {

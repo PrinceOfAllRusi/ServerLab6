@@ -1,30 +1,20 @@
-package commands
+package allForCommands.commands
 
 import commands.types.ArgsType
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import organization.MyCollection
 import organization.Organization
-import tools.input.Input
 import tools.result.Result
 
-/**
- * Count greater than annual turnover
- *
- * @constructor Create empty Count greater than annual turnover
- */
+
 class CountGreaterThanAnnualTurnover: Command, KoinComponent {
 
     private val orgs: MyCollection<Organization> by inject()
     private val description: String = "вывести количество элементов, значение поля annualTurnover которых больше заданного"
     private val type: ArgsType = ArgsType.ARG
-
-    /**
-     * Action
-     *
-     * @param input
-     * @return
-     */
+    private val value: Int = 0
+    private var data: Map<String, Any> = mapOf("value" to value)
     override fun action(data: Map<String, Any>?): Result? {
         if ( data == null ) {
             return null
@@ -43,12 +33,10 @@ class CountGreaterThanAnnualTurnover: Command, KoinComponent {
 
         return result
     }
-
-    /**
-     * Get description
-     *
-     * @return
-     */
     override fun getDescription(): String = description
     override fun getType(): ArgsType = type
+    fun getData() = data
+    fun setData(data: Map<String, Any>) {
+        this.data = data
+    }
 }

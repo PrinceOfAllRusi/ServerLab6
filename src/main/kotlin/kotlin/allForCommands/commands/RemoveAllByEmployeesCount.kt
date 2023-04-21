@@ -1,31 +1,18 @@
-package commands
+package allForCommands.commands
 
 import commands.types.ArgsType
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import organization.MyCollection
 import organization.Organization
-import tools.input.Input
 import tools.result.Result
 
 
-/**
- * Remove all by employees count
- *
- * @constructor Create empty Remove all by employees count
- */
 class RemoveAllByEmployeesCount : Command, KoinComponent {
 
     private val orgs: MyCollection<Organization> by inject()
     private val description: String = "удалить из коллекции все элементы, значение поля employeesCount которого эквивалентно заданному"
     private val type: ArgsType = ArgsType.ARG
-
-    /**
-     * Action
-     *
-     * @param input
-     * @return
-     */
     override fun action(data: Map<String, Any>?): Result? {
         if ( data == null ) {
             return null
@@ -44,20 +31,11 @@ class RemoveAllByEmployeesCount : Command, KoinComponent {
             orgs.remove(org)
         }
 
-            return null
+        val result = Result(false)
+        result.setMessage("Done\n")
+
+        return result
     }
-
-    /**
-     * Get description
-     *
-     * @return
-     */
     override fun getDescription(): String = description
-
-    /**
-     * Get type
-     *
-     * @return
-     */
     override fun getType(): ArgsType = type
 }

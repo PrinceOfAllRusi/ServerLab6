@@ -1,31 +1,19 @@
-package commands
+package allForCommands.commands
 
 import commands.types.ArgsType
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import organization.MyCollection
 import organization.Organization
-import tools.input.Input
 import tools.result.Result
 
 
-/**
- * Remove lower
- *
- * @constructor Create empty Remove lower
- */
 class RemoveLower: Command, KoinComponent {
 
     private val orgs: MyCollection<Organization> by inject()
     private val description: String = "удалить из коллекции все элементы, меньшие, чем заданный"
     private val type: ArgsType = ArgsType.ARG
 
-    /**
-     * Action
-     *
-     * @param input
-     * @return
-     */
     override fun action(data: Map<String, Any>?): Result? {
         if ( data == null ) {
             return null
@@ -44,14 +32,11 @@ class RemoveLower: Command, KoinComponent {
             orgs.remove(org)
         }
 
-        return null
-    }
+        val result = Result(false)
+        result.setMessage("Done\n")
 
-    /**
-     * Get description
-     *
-     * @return
-     */
+        return result
+    }
     override fun getDescription(): String = description
     override fun getType(): ArgsType = type
 }

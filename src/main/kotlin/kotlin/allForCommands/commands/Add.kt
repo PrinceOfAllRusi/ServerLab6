@@ -1,4 +1,4 @@
-package commands
+package allForCommands.commands
 
 import commands.types.ArgsType
 import org.koin.core.component.KoinComponent
@@ -6,27 +6,16 @@ import org.koin.core.component.inject
 import organization.MyCollection
 import organization.Organization
 import organization.OrganizationComparator
-import tools.CreateOrganization
 import tools.result.Result
 
-/**
- * Add
- *
- * @constructor Create empty Add
- */
 class Add : Command, KoinComponent {
 
     private val orgs: MyCollection<Organization> by inject()
     private val description: String = "добавить новый элемент в коллекцию"
     private val type: ArgsType = ArgsType.OBJECT
+    private var data: Map<String, Any> = mapOf("organization" to Organization())
 
-    /**
-     * Action
-     *
-     * @param input
-     * @return
-     */
-    override fun action(data: Map<String, Any>?): Result? {
+    override fun action(data: Map<String, Any>?): Result {
         val orgComp = OrganizationComparator()
         var org: Organization? = null
         if ( data != null ) {
@@ -37,8 +26,15 @@ class Add : Command, KoinComponent {
             orgs.add(org)
             orgs.sortWith(orgComp)
         }
-        return null
+        val result = Result(false)
+        result.setMessage("Done\n")
+
+        return result
     }
     override fun getDescription(): String = description
     override fun getType(): ArgsType = type
+    fun getData() = data
+    fun setData(data: Map<String, Any>) {
+        this.data = data
+    }
 }

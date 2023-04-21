@@ -1,4 +1,4 @@
-package commands
+package allForCommands.commands
 
 import commands.types.ArgsType
 import org.koin.core.component.KoinComponent
@@ -9,23 +9,11 @@ import java.lang.StringBuilder
 import tools.result.Result
 
 
-/**
- * Filter starts with name
- *
- * @constructor Create empty Filter starts with name
- */
 class FilterStartsWithName: Command, KoinComponent {
 
     private val orgs: MyCollection<Organization> by inject()
     private val description: String = "вывести элементы, значение поля name которых начинается с заданной подстроки"
     private val type: ArgsType = ArgsType.ARG
-
-    /**
-     * Action
-     *
-     * @param input
-     * @return
-     */
     override fun action(data: Map<String, Any>?): Result {
         val str: String = data?.get("value").toString()
         val s: StringBuilder = StringBuilder()
@@ -56,12 +44,6 @@ class FilterStartsWithName: Command, KoinComponent {
 
         return result
     }
-
-    /**
-     * Get description
-     *
-     * @return
-     */
     override fun getDescription(): String = description
     override fun getType(): ArgsType = type
 }

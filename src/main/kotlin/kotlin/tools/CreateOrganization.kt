@@ -10,23 +10,13 @@ import tools.input.InputFile
 import java.lang.Integer.max
 
 
-/**
- * Create organization
- *
- * @constructor Create empty Create organization
- */
 class CreateOrganization: KoinComponent {
 
     private val orgs: MyCollection<Organization> by inject()
     private var counter: Int = 0
 
-    /**
-     * Create
-     *
-     * @param input
-     * @param org
-     * @return
-     */
+
+
     fun create(input: Input, org: Organization? ): Organization? {
 
         var organization: Organization = Organization()
@@ -54,7 +44,7 @@ class CreateOrganization: KoinComponent {
                     return null
                 }
             } else {
-                organization.setName(newName!!)
+                organization.setName(newName)
                 break
             }
         }
@@ -144,7 +134,7 @@ class CreateOrganization: KoinComponent {
                     }
                 }
                 else {
-                    organization.setCoordinatesX(newX!!.toInt())
+                    organization.setCoordinatesX(newX.toInt())
                     break
                 }
             } catch ( e: NumberFormatException ) {
@@ -169,7 +159,7 @@ class CreateOrganization: KoinComponent {
                     }
                 }
                 else {
-                    organization.setCoordinatesY(newY!!.toLong())
+                    organization.setCoordinatesY(newY.toLong())
                     break
                 }
             } catch ( e: NumberFormatException ) {
@@ -263,7 +253,6 @@ class CreateOrganization: KoinComponent {
             for ( org in orgs ) {
                 counter = max( counter, org.getId()!!  )
             }
-            counter++
         }
 
         organization.setId(counter)

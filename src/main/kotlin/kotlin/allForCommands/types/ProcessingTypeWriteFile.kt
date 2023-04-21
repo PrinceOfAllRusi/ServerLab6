@@ -5,12 +5,13 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import organization.MyCollection
 import organization.Organization
+import tools.ConcreteCommand
 import tools.WriteFile
 import tools.input.Input
 
 class ProcessingTypeWriteFile: ProcessingType, KoinComponent {
     private val orgs: MyCollection<Organization> by inject()
-    override fun processing(input: Input): Map<String, Any>? {
+    override fun processing(input: Input, abstractCommand: ConcreteCommand): Map<String, Any>? {
         val xml: XStream = XStream()
         val orgsXML: StringBuilder = StringBuilder()
         var i: Int = 0

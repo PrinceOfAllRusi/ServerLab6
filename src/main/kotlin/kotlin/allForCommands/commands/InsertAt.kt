@@ -1,4 +1,4 @@
-package commands
+package allForCommands.commands
 
 import commands.types.ArgsType
 import org.koin.core.component.KoinComponent
@@ -8,23 +8,12 @@ import organization.Organization
 import tools.result.Result
 
 
-/**
- * Insert at
- *
- * @constructor Create empty Insert at
- */
 class InsertAt: Command, KoinComponent {
 
     private val orgs: MyCollection<Organization> by inject()
     private val description: String = "добавить новый элемент в заданную позицию"
     private val type: ArgsType = ArgsType.INDEX_WITH_OBJECT
 
-    /**
-     * Action
-     *
-     * @param input
-     * @return
-     */
     override fun action(data: Map<String, Any>?): Result? {
 
         if ( data == null ) {
@@ -37,21 +26,12 @@ class InsertAt: Command, KoinComponent {
 
         orgs.add(index, org)
 
+        val result = Result(false)
+        result.setMessage("Done\n")
 
-        return null
+        return result
+
     }
-
-    /**
-     * Get description
-     *
-     * @return
-     */
     override fun getDescription(): String = description
-
-    /**
-     * Get type
-     *
-     * @return
-     */
     override fun getType(): ArgsType = type
 }

@@ -1,4 +1,4 @@
-package commands
+package allForCommands.commands
 
 import commands.types.ArgsType
 import org.koin.core.component.KoinComponent
@@ -8,23 +8,12 @@ import organization.Organization
 import organization.OrganizationComparator
 import tools.result.Result
 
-/**
- * Update
- *
- * @constructor Create empty Update
- */
 class Update: Command, KoinComponent {
 
     private val orgs: MyCollection<Organization> by inject()
     private val description: String = "обновить значение элемента коллекции, id которого равен заданному"
     private val type: ArgsType = ArgsType.ARG_WITH_OBJECT
 
-    /**
-     * Action
-     *
-     * @param data
-     * @return
-     */
     override fun action(data: Map<String, Any>?): Result? {
         val orgComp = OrganizationComparator()
         val map: Map<String, Any>? = data
@@ -41,15 +30,11 @@ class Update: Command, KoinComponent {
 
         orgs.sortWith( orgComp )
 
-        return null
+        val result = Result(false)
+        result.setMessage("Done\n")
+
+        return result
     }
-
-    /**
-     * Get description
-     *
-     * @return
-     */
     override fun getDescription(): String = description
-
     override fun getType(): ArgsType = type
 }
