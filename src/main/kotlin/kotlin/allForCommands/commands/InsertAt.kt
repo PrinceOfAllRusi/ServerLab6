@@ -13,6 +13,8 @@ class InsertAt: Command, KoinComponent {
     private val orgs: MyCollection<Organization> by inject()
     private val description: String = "добавить новый элемент в заданную позицию"
     private val type: ArgsType = ArgsType.INDEX_WITH_OBJECT
+    private val value: Int = 0
+    private var data: Map<String, Any> = mapOf("value" to value, "organization" to Organization())
 
     override fun action(data: Map<String, Any>?): Result? {
 
@@ -28,10 +30,18 @@ class InsertAt: Command, KoinComponent {
 
         val result = Result(false)
         result.setMessage("Done\n")
+        fun getData() = data
+        fun setData(data: Map<String, Any>) {
+            this.data = data
+        }
 
         return result
 
     }
     override fun getDescription(): String = description
     override fun getType(): ArgsType = type
+    fun getData() = data
+    fun setData(data: Map<String, Any>) {
+        this.data = data
+    }
 }

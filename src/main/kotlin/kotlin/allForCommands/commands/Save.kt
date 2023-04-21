@@ -14,6 +14,7 @@ class Save: Command, KoinComponent {
     private val orgs: MyCollection<Organization> by inject()
     private val description: String = "сохранить коллекцию в файл"
     private val type: ArgsType = ArgsType.FILE
+    private var data: Map<String, Any> = mapOf()
 
     override fun action(data: Map<String, Any>?): Result? {
 
@@ -34,4 +35,8 @@ class Save: Command, KoinComponent {
     }
     override fun getDescription(): String = description
     override fun getType(): ArgsType = type
+    fun getData() = data
+    fun setData(data: Map<String, Any>) {
+        this.data = data
+    }
 }

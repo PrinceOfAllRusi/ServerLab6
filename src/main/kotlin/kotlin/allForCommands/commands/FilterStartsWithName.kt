@@ -14,6 +14,7 @@ class FilterStartsWithName: Command, KoinComponent {
     private val orgs: MyCollection<Organization> by inject()
     private val description: String = "вывести элементы, значение поля name которых начинается с заданной подстроки"
     private val type: ArgsType = ArgsType.ARG
+    private var data: Map<String, Any> = mapOf("value" to "")
     override fun action(data: Map<String, Any>?): Result {
         val str: String = data?.get("value").toString()
         val s: StringBuilder = StringBuilder()

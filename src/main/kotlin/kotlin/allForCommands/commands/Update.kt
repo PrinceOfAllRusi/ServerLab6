@@ -13,6 +13,7 @@ class Update: Command, KoinComponent {
     private val orgs: MyCollection<Organization> by inject()
     private val description: String = "обновить значение элемента коллекции, id которого равен заданному"
     private val type: ArgsType = ArgsType.ARG_WITH_OBJECT
+    private var data: Map<String, Any> = mapOf("value" to 0, "lastOrganization" to Organization(), "newOrganization" to Organization())
 
     override fun action(data: Map<String, Any>?): Result? {
         val orgComp = OrganizationComparator()
@@ -37,4 +38,8 @@ class Update: Command, KoinComponent {
     }
     override fun getDescription(): String = description
     override fun getType(): ArgsType = type
+    fun getData() = data
+    fun setData(data: Map<String, Any>) {
+        this.data = data
+    }
 }

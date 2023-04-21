@@ -17,6 +17,7 @@ import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress
 import java.time.LocalDateTime
+import transmittedData.CommandsData
 
 
 class CommandProcessor: KoinComponent {
@@ -57,16 +58,16 @@ class CommandProcessor: KoinComponent {
         var xml = ""
 
 
-//        val commandsList = commandsList
-//        serverSocket.receive(inputPacket)
-//        xml = mapper.writeValueAsString(commandsList)
-//
-//        sendingDataBuffer = xml.toByteArray()
-//        port = inputPacket.port
-//        host = inputPacket.address
-//
-//        outputPacket = DatagramPacket(sendingDataBuffer, sendingDataBuffer.size, host, port)
-//        serverSocket.send(outputPacket)
+        val commandsData = CommandsData()
+        serverSocket.receive(inputPacket)
+        xml = mapper.writeValueAsString(commandsData)
+
+        sendingDataBuffer = xml.toByteArray()
+        port = inputPacket.port
+        host = inputPacket.address
+
+        outputPacket = DatagramPacket(sendingDataBuffer, sendingDataBuffer.size, host, port)
+        serverSocket.send(outputPacket)
 
 
         System.out.println("Waiting for a client to connect...")

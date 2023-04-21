@@ -11,8 +11,9 @@ class Help : Command, KoinComponent {
 
     private val description: String = "вывести справку по доступным командам"
     private val commandsList: CommandsList by inject()
-    private var type: ArgsType = ArgsType.NO_ARG
-    override fun action(data: Map<String, Any>?): Result? {
+    private val type: ArgsType = ArgsType.NO_ARG
+    private var data: Map<String, Any> = mapOf()
+    override fun action(data: Map<String, Any>?): Result {
 
         val s = commandsList.getDescription() + "\n"
         val result = Result(false)
@@ -22,4 +23,8 @@ class Help : Command, KoinComponent {
     }
     override fun getDescription(): String = description
     override fun getType(): ArgsType = type
+    fun getData() = data
+    fun setData(data: Map<String, Any>) {
+        this.data = data
+    }
 }

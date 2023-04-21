@@ -13,8 +13,7 @@ class ExecuteScript: Command, KoinComponent {
     private val absoluteWay: ArrayList<String> by inject()
     private val description: String = "считать и исполнить скрипт из указанного файла"
     private val type: ArgsType = ArgsType.SCRIPT
-    private val script: String = ""
-    private var data: Map<String, Any> = mapOf("script" to script)
+    private var data: Map<String, Any> = mapOf("script" to "")
     override fun action(data: Map<String, Any>?): Result? {
 
         if ( data == null ) {

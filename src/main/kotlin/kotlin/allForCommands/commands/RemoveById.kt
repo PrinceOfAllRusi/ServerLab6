@@ -13,6 +13,8 @@ class RemoveById: Command, KoinComponent {
     private val orgs: MyCollection<Organization> by inject()
     private val description: String = "удалить элемент из коллекции по его id"
     private val type: ArgsType = ArgsType.ARG
+    private val value: Int = 0
+    private var data: Map<String, Any> = mapOf("value" to value)
 
     override fun action(data: Map<String, Any>?): Result? {
         var strId: String = ""
@@ -37,4 +39,8 @@ class RemoveById: Command, KoinComponent {
     }
     override fun getDescription(): String = description
     override fun getType(): ArgsType = type
+    fun getData() = data
+    fun setData(data: Map<String, Any>) {
+        this.data = data
+    }
 }

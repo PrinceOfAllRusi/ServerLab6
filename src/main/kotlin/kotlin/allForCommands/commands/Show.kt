@@ -13,6 +13,7 @@ class Show: Command, KoinComponent {
     private val orgs: MyCollection<Organization> by inject()
     private val description: String = "вывести все элементы коллекции"
     private val type: ArgsType = ArgsType.NO_ARG
+    private var data: Map<String, Any> = mapOf()
 
     override fun action(data: Map<String, Any>?): Result {
         val s = StringBuilder()
@@ -26,4 +27,8 @@ class Show: Command, KoinComponent {
     }
     override fun getDescription(): String = description
     override fun getType(): ArgsType = type
+    fun getData() = data
+    fun setData(data: Map<String, Any>) {
+        this.data = data
+    }
 }
