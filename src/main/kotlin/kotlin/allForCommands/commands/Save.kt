@@ -1,6 +1,5 @@
 package allForCommands.commands
 
-
 import commands.types.ArgsType
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -9,7 +8,7 @@ import organization.Organization
 import tools.WriteFile
 import tools.result.Result
 
-class Save: Command, KoinComponent {
+class Save: AbstractCommand(), KoinComponent {
 
     private val orgs: MyCollection<Organization> by inject()
     private val description: String = "сохранить коллекцию в файл"
@@ -34,9 +33,9 @@ class Save: Command, KoinComponent {
         return result
     }
     override fun getDescription(): String = description
-    override fun getType(): ArgsType = type
     fun getData() = data
     fun setData(data: Map<String, Any>) {
         this.data = data
     }
+    override fun getType(): ArgsType = type
 }

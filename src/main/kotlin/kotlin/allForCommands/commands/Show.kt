@@ -8,12 +8,13 @@ import organization.Organization
 import tools.result.Result
 
 
-class Show: Command, KoinComponent {
+class Show: AbstractCommand(), KoinComponent {
 
     private val orgs: MyCollection<Organization> by inject()
     private val description: String = "вывести все элементы коллекции"
     private val type: ArgsType = ArgsType.NO_ARG
     private var data: Map<String, Any> = mapOf()
+    private var fields: Map<String, Map<String, String>> = mapOf()
 
     override fun action(data: Map<String, Any>?): Result {
         val s = StringBuilder()
@@ -26,9 +27,10 @@ class Show: Command, KoinComponent {
         return result
     }
     override fun getDescription(): String = description
-    override fun getType(): ArgsType = type
     fun getData() = data
     fun setData(data: Map<String, Any>) {
         this.data = data
     }
+    override fun getFields() = fields
+    override fun getType(): ArgsType = type
 }

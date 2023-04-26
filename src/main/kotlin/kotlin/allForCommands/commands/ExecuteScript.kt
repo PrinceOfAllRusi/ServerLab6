@@ -8,12 +8,18 @@ import tools.input.InputFile
 import tools.result.Result
 import kotlin.collections.ArrayList
 
-class ExecuteScript: Command, KoinComponent {
+class ExecuteScript: AbstractCommand(), KoinComponent {
 
     private val absoluteWay: ArrayList<String> by inject()
     private val description: String = "считать и исполнить скрипт из указанного файла"
     private val type: ArgsType = ArgsType.SCRIPT
     private var data: Map<String, Any> = mapOf("script" to "")
+    private var fields: Map<String, Map<String, String>> = mapOf(
+        "script" to mapOf<String, String>(
+            "title" to "Введите переменную окружения содержащую путь к файлу\n",
+            "type" to "String"
+        )
+    )
     override fun action(data: Map<String, Any>?): Result? {
 
         if ( data == null ) {
@@ -34,9 +40,10 @@ class ExecuteScript: Command, KoinComponent {
         return null
     }
     override fun getDescription(): String = description
-    override fun getType(): ArgsType = type
     fun getData() = data
     fun setData(data: Map<String, Any>) {
         this.data = data
     }
+    override fun getFields() = fields
+    override fun getType(): ArgsType = type
 }

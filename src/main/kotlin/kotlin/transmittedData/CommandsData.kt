@@ -4,10 +4,21 @@ import commands.types.ArgsType
 import organization.Organization
 
 class CommandsData {
-    private var commandsList: Map<String, Map<String, Any>>
-    private var typesList: Map<ArgsType, Int>
+    private var commandsList: Map<String, Map<String, Any>> = mapOf()
 
-    constructor() {
+    fun getDataForCommands() {
+        val fields = mapOf<String, Map<String, Any>>(
+            "name" to mapOf<String, Any>(
+                "title" to "Введите название вашей организации\n",
+                "type" to "string",
+                "required" to true
+            ),
+            "annualTurnover" to mapOf<String, Any>(
+                "title" to "Введите название вашей организации\n",
+                "type" to "number",
+                "required" to true
+            ),
+        )
         val mapScriptData: Map<String, String> = mapOf("script" to "")
         val mapNoData: Map<String, String> = mapOf()
         val mapOneData: Map<String, String> = mapOf("value" to "")
@@ -20,18 +31,10 @@ class CommandsData {
             "help" to mapNoData, "info" to mapNoData, "insert_at" to mapOneData,
             "remove_all_by_employees_count" to mapOneData, "remove_at" to mapOneData, "remove_by_id" to mapOneData,
             "remove_lower" to mapOneData, "show" to mapNoData, "update" to mapThreeData)
-
-        typesList = mapOf(ArgsType.NO_ARG to 0, ArgsType.ARG to 1, ArgsType.ARG_WITH_OBJECT to 3,
-            ArgsType.INDEX_WITH_OBJECT to 2, ArgsType.SCRIPT to 1, ArgsType.OBJECT to 2)
     }
-
     fun getCommandsList() = commandsList
     fun setCommandsList(commandsList: Map<String, Map<String, Any>>) {
         this.commandsList = commandsList
-    }
-    fun getTypeList() = typesList
-    fun setTypeList(typesList: Map<ArgsType, Int>) {
-        this.typesList = typesList
     }
 
 }
