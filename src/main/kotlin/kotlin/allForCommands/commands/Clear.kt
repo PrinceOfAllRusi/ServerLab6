@@ -10,10 +10,9 @@ class Clear: AbstractCommand(), KoinComponent {
 
     private val orgs: MyCollection<Organization> by inject()
     private val description: String = "очистить коллекцию"
-    private var data: Map<String, Any> = mapOf()
     private var fields: Map<String, Map<String, String>> = mapOf()
 
-    override fun action(data: Map<String, Any>?): Result {
+    override fun action(data: Map<String, String?>): Result {
         orgs.clear()
         val result = Result(false)
         result.setMessage("Done\n")
@@ -21,9 +20,5 @@ class Clear: AbstractCommand(), KoinComponent {
         return result
     }
     override fun getDescription(): String = description
-    fun getData() = data
-    fun setData(data: Map<String, Any>) {
-        this.data = data
-    }
     override fun getFields() = fields
 }

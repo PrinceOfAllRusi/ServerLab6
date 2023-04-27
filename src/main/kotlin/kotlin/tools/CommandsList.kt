@@ -3,7 +3,7 @@ package tools
 import allForCommands.commands.AbstractCommand
 
 class CommandsList {
-    var listCommands: Map<String, AbstractCommand> = mapOf()
+    private var listCommands: Map<String, AbstractCommand> = mapOf()
     constructor(listCommands: Map<String, AbstractCommand>) {
         this.listCommands = listCommands
     }

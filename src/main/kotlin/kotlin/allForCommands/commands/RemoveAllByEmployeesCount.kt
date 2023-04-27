@@ -11,21 +11,15 @@ class RemoveAllByEmployeesCount : AbstractCommand(), KoinComponent {
 
     private val orgs: MyCollection<Organization> by inject()
     private val description: String = "удалить из коллекции все элементы, значение поля employeesCount которого эквивалентно заданному"
-    private val value: Int = 0
-    private var data: Map<String, Any> = mapOf("value" to value)
     private var fields: Map<String, Map<String, String>> = mapOf(
         "value" to mapOf<String, String>(
             "type" to "Int",
             "min" to "1"
         )
     )
-    override fun action(data: Map<String, Any>?): Result? {
-        if ( data == null ) {
-            return null
-        }
+    override fun action(data: Map<String, String?>): Result {
 
-        val strCount: String = data["value"].toString()
-        val count = strCount.toInt()
+        val count = data["value"]!!.toInt()
         val newOrgs = MyCollection<Organization>()
 
         for ( org in orgs ) {
@@ -43,9 +37,5 @@ class RemoveAllByEmployeesCount : AbstractCommand(), KoinComponent {
         return result
     }
     override fun getDescription(): String = description
-    fun getData() = data
-    fun setData(data: Map<String, Any>) {
-        this.data = data
-    }
     override fun getFields() = fields
 }

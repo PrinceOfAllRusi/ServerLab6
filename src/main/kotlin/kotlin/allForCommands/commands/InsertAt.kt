@@ -4,14 +4,13 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import organization.MyCollection
 import organization.Organization
+import tools.CreateOrganization
 import tools.result.Result
 
 class InsertAt: AbstractCommand(), KoinComponent {
 
     private val orgs: MyCollection<Organization> by inject()
     private val description: String = "добавить новый элемент в заданную позицию"
-    private val value: Int = 0
-    private var data: Map<String, Any> = mapOf("value" to value, "organization" to Organization())
     private var fields: Map<String, Map<String, String>> = mapOf(
         "value" to mapOf<String, String>(
             "type" to "Int"
@@ -55,32 +54,19 @@ class InsertAt: AbstractCommand(), KoinComponent {
         )
     )
 
-    override fun action(data: Map<String, Any>?): Result? {
+    override fun action(data: Map<String, String?>): Result {
 
-        if ( data == null ) {
-            return null
-        }
-
-        val strIndex: String = data["value"].toString()
-        val index = strIndex.toInt()
-        val org = data.get("organization") as Organization
+        val index = data["value"]!!.toInt()
+        val org = CreateOrganization().create(data, null)
 
         orgs.add(index, org)
 
         val result = Result(false)
         result.setMessage("Done\n")
-        fun getData() = data
-        fun setData(data: Map<String, Any>) {
-            this.data = data
-        }
 
         return result
 
     }
     override fun getDescription(): String = description
-    fun getData() = data
-    fun setData(data: Map<String, Any>) {
-        this.data = data
-    }
     override fun getFields() = fields
 }

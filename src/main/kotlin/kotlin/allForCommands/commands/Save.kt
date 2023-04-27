@@ -11,14 +11,13 @@ class Save: AbstractCommand(), KoinComponent {
 
     private val orgs: MyCollection<Organization> by inject()
     private val description: String = "сохранить коллекцию в файл"
-    private var data: Map<String, Any> = mapOf()
 
-    override fun action(data: Map<String, Any>?): Result? {
+    override fun action(data: Map<String, String?>): Result {
 
-        val wayCollection: String = data!!["wayCollection"].toString()
-        val collectionXML: String = data["collectionXML"].toString()
-        val wayOrgs: String = data["wayOrgs"].toString()
-        val orgsXML: String = data["orgsXML"].toString()
+        val wayCollection = data["wayCollection"].toString()
+        val collectionXML = data["collectionXML"].toString()
+        val wayOrgs = data["wayOrgs"].toString()
+        val orgsXML = data["orgsXML"].toString()
         val writer = WriteFile()
 
         writer.write(wayCollection, collectionXML) //TODO something
@@ -31,8 +30,4 @@ class Save: AbstractCommand(), KoinComponent {
         return result
     }
     override fun getDescription(): String = description
-    fun getData() = data
-    fun setData(data: Map<String, Any>) {
-        this.data = data
-    }
 }

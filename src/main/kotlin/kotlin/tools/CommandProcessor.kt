@@ -5,8 +5,6 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import organization.MyCollection
-import organization.Organization
 import serializ.TimeSerializer
 import tools.input.Input
 import tools.input.InputFile
@@ -22,23 +20,15 @@ import CommandsData.ReceiveCommandsData
 
 class CommandProcessor: KoinComponent {
 
-    private val orgs: MyCollection<Organization> by inject()
     private val commandsList: CommandsList by inject()
 
     fun process(input: Input) {
 
         var result: Result? = Result(false)
-        var mapData: Map<String, Any>?
+        var mapData: Map<String, String?>
 
         var command = ""
         var receiveCommandsData = ReceiveCommandsData() //получаемые от клиента данные
-
-//        var maxId = 0
-//        for ( org in orgs ) {
-//            maxId = max(maxId, org.getId()!!)
-//        }
-//        val counter = maxId
-//        abstractCommand.setCounter(counter)
 
         //инициализирую все, что требуется для передачи данных
         var port = 6789

@@ -5,13 +5,13 @@ import org.koin.core.component.inject
 import organization.MyCollection
 import organization.Organization
 import organization.OrganizationComparator
+import tools.CreateOrganization
 import tools.result.Result
 
 class Update: AbstractCommand(), KoinComponent {
 
     private val orgs: MyCollection<Organization> by inject()
     private val description: String = "обновить значение элемента коллекции, id которого равен заданному"
-    private var data: Map<String, Any> = mapOf("value" to 0, "lastOrganization" to Organization(), "newOrganization" to Organization())
     private var fields: Map<String, Map<String, String>> = mapOf(
         "value" to mapOf<String, String>(
             "type" to "Int"
@@ -63,16 +63,18 @@ class Update: AbstractCommand(), KoinComponent {
         )
     )
 
-    override fun action(data: Map<String, Any>?): Result? {
-        val orgComp = OrganizationComparator()
-        val map: Map<String, Any>? = data
+    override fun action(data: Map<String, String?>): Result {
 
-        if ( map == null ) {
-            return null
+        val id = data["value"]!!.toInt()
+        var lastOrganization = Organization()
+        for ( org in orgs ) {
+            if ( id == org.getId() ) {
+                lastOrganization = org
+                break
+            }
         }
-
-        val lastOrganization: Organization = map.get("lastOrganization") as Organization
-        val newOrganization: Organization = map.get("newOrganization") as Organization
+        val newOrganization: Organization = CreateOrganization().create(data, lastOrganization)
+        val orgComp = OrganizationComparator()
 
         orgs.remove( lastOrganization )
         orgs.add( newOrganization )
@@ -85,9 +87,5 @@ class Update: AbstractCommand(), KoinComponent {
         return result
     }
     override fun getDescription(): String = description
-    fun getData() = data
-    fun setData(data: Map<String, Any>) {
-        this.data = data
-    }
     override fun getFields() = fields
 }

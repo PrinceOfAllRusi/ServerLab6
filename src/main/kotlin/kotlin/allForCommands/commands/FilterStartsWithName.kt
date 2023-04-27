@@ -12,24 +12,26 @@ class FilterStartsWithName: AbstractCommand(), KoinComponent {
 
     private val orgs: MyCollection<Organization> by inject()
     private val description: String = "вывести элементы, значение поля name которых начинается с заданной подстроки"
-    private var data: Map<String, Any> = mapOf("value" to "")
     private var fields: Map<String, Map<String, String>> = mapOf(
         "value" to mapOf<String, String>(
             "type" to "String"
         )
     )
-    override fun action(data: Map<String, Any>?): Result {
-        val str: String = data?.get("value").toString()
+    override fun action(data: Map<String, String?>): Result {
+        val str = data["value"]!!
         val s: StringBuilder = StringBuilder()
-        for (org in orgs) {
 
+        val name = str.toCharArray()
+        var orgName: CharArray
+        var condition: Boolean
+
+        for (org in orgs) {
             if ( str.length > org.getName()!!.length) {
                 continue
             }
 
-            val name = str.toCharArray()
-            val orgName = org.getName()!!.toCharArray()
-            var condition = true
+            orgName = org.getName()!!.toCharArray()
+            condition = true
 
             for (i in 0..name.size-1) {
                 if ( name[i] != orgName[i] ) {

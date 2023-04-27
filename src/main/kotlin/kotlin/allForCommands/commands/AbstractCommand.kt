@@ -10,7 +10,7 @@ abstract class AbstractCommand {
         this.fields = mapOf()
     }
 
-    open fun action(map: Map<String, String>?): Result? {
+    open fun action(map: Map<String, String?>): Result? {
         return null
     }
     open fun getDescription(): String = description

@@ -11,20 +11,15 @@ class ExecuteScript: AbstractCommand(), KoinComponent {
 
     private val absoluteWay: ArrayList<String> by inject()
     private val description: String = "считать и исполнить скрипт из указанного файла"
-    private var data: Map<String, Any> = mapOf("script" to "")
     private var fields: Map<String, Map<String, String>> = mapOf(
         "script" to mapOf<String, String>(
             "title" to "Введите переменную окружения содержащую путь к файлу\n",
             "type" to "String"
         )
     )
-    override fun action(data: Map<String, Any>?): Result? {
+    override fun action(data: Map<String, String?>): Result? {
 
-        if ( data == null ) {
-            return null
-        }
-
-        val s = data.get("script").toString()
+        val s = data["script"].toString()
 
         val input = InputFile(s)
 
@@ -38,9 +33,5 @@ class ExecuteScript: AbstractCommand(), KoinComponent {
         return null
     }
     override fun getDescription(): String = description
-    fun getData() = data
-    fun setData(data: Map<String, Any>) {
-        this.data = data
-    }
     override fun getFields() = fields
 }
