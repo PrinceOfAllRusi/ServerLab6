@@ -1,6 +1,5 @@
 package allForCommands.commands
 
-import commands.types.ArgsType
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import tools.CommandsList
@@ -11,7 +10,6 @@ class Help : AbstractCommand(), KoinComponent {
 
     private val description: String = "вывести справку по доступным командам"
     private val commandsList: CommandsList by inject()
-    private val type: ArgsType = ArgsType.NO_ARG
     private var data: Map<String, Any> = mapOf()
     private var fields: Map<String, Map<String, String>> = mapOf()
     override fun action(data: Map<String, Any>?): Result {
@@ -28,5 +26,4 @@ class Help : AbstractCommand(), KoinComponent {
         this.data = data
     }
     override fun getFields() = fields
-    override fun getType(): ArgsType = type
 }

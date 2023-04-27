@@ -1,12 +1,10 @@
 package allForCommands.commands
 
-import commands.types.ArgsType
 import tools.result.Result
 
 class Exit : AbstractCommand() {
 
     private val description: String = "завершить программу (без сохранения в файл)"
-    private val type: ArgsType = ArgsType.NO_ARG
     private var data: Map<String, Any> = mapOf()
     private var fields: Map<String, Map<String, String>> = mapOf()
 
@@ -22,5 +20,4 @@ class Exit : AbstractCommand() {
         this.data = data
     }
     override fun getFields() = fields
-    override fun getType(): ArgsType = type
 }

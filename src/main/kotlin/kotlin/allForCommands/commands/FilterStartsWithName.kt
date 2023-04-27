@@ -1,6 +1,5 @@
 package allForCommands.commands
 
-import commands.types.ArgsType
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import organization.MyCollection
@@ -13,7 +12,6 @@ class FilterStartsWithName: AbstractCommand(), KoinComponent {
 
     private val orgs: MyCollection<Organization> by inject()
     private val description: String = "вывести элементы, значение поля name которых начинается с заданной подстроки"
-    private val type: ArgsType = ArgsType.ARG
     private var data: Map<String, Any> = mapOf("value" to "")
     private var fields: Map<String, Map<String, String>> = mapOf(
         "value" to mapOf<String, String>(
@@ -52,5 +50,4 @@ class FilterStartsWithName: AbstractCommand(), KoinComponent {
     }
     override fun getDescription(): String = description
     override fun getFields() = fields
-    override fun getType(): ArgsType = type
 }

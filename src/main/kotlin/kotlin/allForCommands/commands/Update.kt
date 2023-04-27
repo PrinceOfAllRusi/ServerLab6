@@ -1,6 +1,5 @@
 package allForCommands.commands
 
-import commands.types.ArgsType
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import organization.MyCollection
@@ -12,7 +11,6 @@ class Update: AbstractCommand(), KoinComponent {
 
     private val orgs: MyCollection<Organization> by inject()
     private val description: String = "обновить значение элемента коллекции, id которого равен заданному"
-    private val type: ArgsType = ArgsType.ARG_WITH_OBJECT
     private var data: Map<String, Any> = mapOf("value" to 0, "lastOrganization" to Organization(), "newOrganization" to Organization())
     private var fields: Map<String, Map<String, String>> = mapOf(
         "value" to mapOf<String, String>(
@@ -92,5 +90,4 @@ class Update: AbstractCommand(), KoinComponent {
         this.data = data
     }
     override fun getFields() = fields
-    override fun getType(): ArgsType = type
 }

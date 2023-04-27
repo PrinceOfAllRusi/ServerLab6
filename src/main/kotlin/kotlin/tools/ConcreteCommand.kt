@@ -1,44 +1,23 @@
 package tools
 
+import allForCommands.commands.AbstractCommand
+import org.koin.core.Koin
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
+import organization.MyCollection
 import organization.Organization
+import organization.OrganizationComparator
+import tools.result.Result
 
-class ConcreteCommand {
-    private var name: String = ""
-    private var index: Int = -1
-    private var counter: Int = 0
-    private var organization: Organization = Organization()
-    private var script: String = ""
-    private var message: String = ""
+class ConcreteCommand: AbstractCommand(), KoinComponent {
+    private var description: String = ""
+    private var data: Map<String, Any> = mapOf("organization" to Organization())
+    private var fields: Map<String, Map<String, String>> = mapOf()
 
-    fun getName(): String = name
-    fun setName(name: String) {
-        this.name = name
+    override fun getDescription(): String = description
+    fun getData() = data
+    fun setData(data: Map<String, Any>) {
+        this.data = data
     }
-    fun getIndex(): Int = index
-    fun setIndex(index: Int) {
-        this.index = index
-    }
-    fun getCounter() = counter
-    fun setCounter(counter: Int) {
-        this.counter = counter
-    }
-    fun getOrganization(): Organization = organization
-    fun setOrganization(org: Organization) {
-        this.organization = org
-    }
-    fun getScript(): String = script
-    fun setScript(script: String) {
-        this.script = script
-    }
-    fun getMessage(): String = message
-    fun setMessage(message: String) {
-        this.message = message
-    }
-    fun cleanFields() {
-        this.name = ""
-        this.index = -1
-        this.organization = Organization()
-        this.script = ""
-    }
-
+    override fun getFields() = fields
 }

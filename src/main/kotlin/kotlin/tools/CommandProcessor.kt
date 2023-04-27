@@ -12,12 +12,12 @@ import tools.input.Input
 import tools.input.InputFile
 import tools.result.Result
 import tools.serializ.TimeDeserializer
-import java.lang.Integer.max
 import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress
 import java.time.LocalDateTime
-import transmittedData.CommandsData
+import transmittedData.SendCommandsData
+import CommandsData.ReceiveCommandsData
 
 
 class CommandProcessor: KoinComponent {
@@ -31,16 +31,16 @@ class CommandProcessor: KoinComponent {
         var mapData: Map<String, Any>?
 
         var command = ""
-        var abstractCommand = ConcreteCommand()
-        var concreteCommand = ConcreteCommand()
+        var receiveCommandsData = ReceiveCommandsData() //получаемые от клиента данные
 
-        var maxId = 0
-        for ( org in orgs ) {
-            maxId = max(maxId, org.getId()!!)
-        }
-        val counter = maxId
-        abstractCommand.setCounter(counter)
+//        var maxId = 0
+//        for ( org in orgs ) {
+//            maxId = max(maxId, org.getId()!!)
+//        }
+//        val counter = maxId
+//        abstractCommand.setCounter(counter)
 
+        //инициализирую все, что требуется для передачи данных
         var port = 6789
         var host: InetAddress
         val serverSocket = DatagramSocket(port)
@@ -50,6 +50,7 @@ class CommandProcessor: KoinComponent {
         var outputPacket: DatagramPacket
         var receivedData = ""
 
+        //создаю объект, который сериализует данные
         val mapper = XmlMapper()
         val module = SimpleModule()
         module.addSerializer(LocalDateTime::class.java, TimeSerializer())
@@ -58,43 +59,38 @@ class CommandProcessor: KoinComponent {
         var xml = ""
 
 
-        val commandsData = CommandsData()
-        serverSocket.receive(inputPacket)
-        xml = mapper.writeValueAsString(commandsData)
+        val commandsData = SendCommandsData() //список команд с требуемыми параметрами, который отправляется клиенту
+        xml = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(commandsData)
 
+        serverSocket.receive(inputPacket)
         sendingDataBuffer = xml.toByteArray()
         port = inputPacket.port
         host = inputPacket.address
 
         outputPacket = DatagramPacket(sendingDataBuffer, sendingDataBuffer.size, host, port)
-        serverSocket.send(outputPacket)
+        serverSocket.send(outputPacket) // отправляю список команд клиенту
 
-
-        System.out.println("Waiting for a client to connect...")
-
+        var receiveMassage = "" //TODO временно
 
         while ( true ) {
+
+            receiveMassage = "" //TODO временно
 
             serverSocket.receive(inputPacket)
             xml = String(inputPacket.data, 0, inputPacket.length)
 
-            abstractCommand = mapper.readValue<ConcreteCommand>(xml)
-            command = abstractCommand.getName()
+            receiveCommandsData = mapper.readValue<ReceiveCommandsData>(xml)
 
-            System.out.println(command)
+            command = receiveCommandsData.getName()
 
             result?.setMessage("")
 
             if ( !commandsList.containsCommand(command) ) {
-                input.outMsg("Такой команды не существует\n")
+                receiveMassage = "Такой команды не существует\n"
             }
             else {
                 try {
-                    val type = commandsList.getCommand(command)?.getType()
-                    if ( type == null ) {
-                        continue
-                    }
-                    mapData = commandsList.getType(type)?.processing(input, abstractCommand)
+                    mapData = receiveCommandsData.getMapCommands()
                     result = commandsList.getCommand(command)?.action(mapData)
 
                 } catch ( e: NumberFormatException ) {
@@ -107,19 +103,13 @@ class CommandProcessor: KoinComponent {
                 }
             }
 
-            input.outMsg(result?.getMessage())
+            receiveMassage = result?.getMessage().toString()
 
             if (result?.getExit() == true) {
                 break
             }
 
-            abstractCommand.cleanFields()
-
-            if (result != null) {
-                abstractCommand.setMessage(result.getMessage())
-            }
-
-            xml = mapper.writeValueAsString(abstractCommand)
+            xml = mapper.writeValueAsString(receiveMassage)
 
             sendingDataBuffer = xml.toByteArray()
             port = inputPacket.port

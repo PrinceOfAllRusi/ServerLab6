@@ -1,6 +1,5 @@
 package allForCommands.commands
 
-import commands.types.ArgsType
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import tools.*
@@ -12,7 +11,6 @@ class ExecuteScript: AbstractCommand(), KoinComponent {
 
     private val absoluteWay: ArrayList<String> by inject()
     private val description: String = "считать и исполнить скрипт из указанного файла"
-    private val type: ArgsType = ArgsType.SCRIPT
     private var data: Map<String, Any> = mapOf("script" to "")
     private var fields: Map<String, Map<String, String>> = mapOf(
         "script" to mapOf<String, String>(
@@ -45,5 +43,4 @@ class ExecuteScript: AbstractCommand(), KoinComponent {
         this.data = data
     }
     override fun getFields() = fields
-    override fun getType(): ArgsType = type
 }

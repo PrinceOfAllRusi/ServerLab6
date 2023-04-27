@@ -1,18 +1,17 @@
 package allForCommands.commands
 
-import commands.types.ArgsType
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import organization.MyCollection
 import organization.Organization
 import organization.OrganizationComparator
+import tools.CreateOrganization
 import tools.result.Result
 
 class Add : AbstractCommand(), KoinComponent {
 
     private val orgs: MyCollection<Organization> by inject()
     private val description: String = "добавить новый элемент в коллекцию"
-    private val type: ArgsType = ArgsType.OBJECT
     private var data: Map<String, Any> = mapOf("organization" to Organization())
     private var fields: Map<String, Map<String, String>> = mapOf(
         "name" to mapOf<String, String>(
@@ -54,12 +53,10 @@ class Add : AbstractCommand(), KoinComponent {
         )
     )
 
-    override fun action(data: Map<String, Any>?): Result {
+    override fun action(data: Map<String, String>?): Result {
         val orgComp = OrganizationComparator()
-        var org: Organization? = null
-        if ( data != null ) {
-            org = data.get("organization") as Organization?
-        }
+        val org: Organization? = CreateOrganization().create(data)
+
 
         if ( org != null ){
             orgs.add(org)
@@ -76,5 +73,4 @@ class Add : AbstractCommand(), KoinComponent {
         this.data = data
     }
     override fun getFields() = fields
-    override fun getType(): ArgsType = type
 }

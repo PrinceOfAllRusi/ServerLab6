@@ -1,6 +1,5 @@
 package allForCommands.commands
 
-import commands.types.ArgsType
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import organization.MyCollection
@@ -11,7 +10,6 @@ class Clear: AbstractCommand(), KoinComponent {
 
     private val orgs: MyCollection<Organization> by inject()
     private val description: String = "очистить коллекцию"
-    private val type: ArgsType = ArgsType.NO_ARG
     private var data: Map<String, Any> = mapOf()
     private var fields: Map<String, Map<String, String>> = mapOf()
 
@@ -28,5 +26,4 @@ class Clear: AbstractCommand(), KoinComponent {
         this.data = data
     }
     override fun getFields() = fields
-    override fun getType(): ArgsType = type
 }
