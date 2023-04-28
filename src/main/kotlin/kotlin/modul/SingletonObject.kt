@@ -7,6 +7,7 @@ import organization.Organization
 import tools.CommandsList
 import tools.CreateOrganization
 import kotlin.collections.ArrayList
+import tools.DataList
 
 object SingletonObject {
 
@@ -14,6 +15,7 @@ object SingletonObject {
         single<MyCollection<Organization>> { MyCollection() }
         single<ArrayList<String>> { ArrayList() }
         single<CreateOrganization> { CreateOrganization() }
+        single<DataList> { DataList() }
 
         val listCommand: Map<String, AbstractCommand> = mapOf("help" to Help(),
             "info" to Info(), "show" to Show(), "add" to Add(),
@@ -26,7 +28,6 @@ object SingletonObject {
             "filter_starts_with_name" to FilterStartsWithName())
 
         val CommandsList: CommandsList = CommandsList( listCommand )
-
         single<CommandsList> { CommandsList }
     }
 }

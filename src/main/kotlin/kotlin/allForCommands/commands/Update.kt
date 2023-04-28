@@ -11,6 +11,7 @@ import tools.result.Result
 class Update: AbstractCommand(), KoinComponent {
 
     private val orgs: MyCollection<Organization> by inject()
+    private val creator: CreateOrganization by inject()
     private val description: String = "обновить значение элемента коллекции, id которого равен заданному"
     private var fields: Map<String, Map<String, String>> = mapOf(
         "value" to mapOf<String, String>(
@@ -73,7 +74,7 @@ class Update: AbstractCommand(), KoinComponent {
                 break
             }
         }
-        val newOrganization: Organization = CreateOrganization().create(data, lastOrganization)
+        val newOrganization: Organization = creator.create(data, lastOrganization)
         val orgComp = OrganizationComparator()
 
         orgs.remove( lastOrganization )
@@ -81,7 +82,7 @@ class Update: AbstractCommand(), KoinComponent {
 
         orgs.sortWith( orgComp )
 
-        val result = Result(false)
+        val result = Result()
         result.setMessage("Done\n")
 
         return result

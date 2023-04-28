@@ -11,6 +11,7 @@ import tools.result.Result
 class Add : AbstractCommand(), KoinComponent {
 
     private val orgs: MyCollection<Organization> by inject()
+    private val creator: CreateOrganization by inject()
     private val description: String = "добавить новый элемент в коллекцию"
     private var fields: Map<String, Map<String, String>> = mapOf(
         "name" to mapOf<String, String>(
@@ -54,12 +55,12 @@ class Add : AbstractCommand(), KoinComponent {
 
     override fun action(data: Map<String, String?>): Result {
         val orgComp = OrganizationComparator()
-        val org: Organization = CreateOrganization().create(data, null)
+        val org: Organization = creator.create(data, null)
 
         orgs.add(org)
         orgs.sortWith(orgComp)
 
-        val result = Result(false)
+        val result = Result()
         result.setMessage("Done\n")
 
         return result

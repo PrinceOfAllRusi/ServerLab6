@@ -29,7 +29,7 @@ class RemoveById: AbstractCommand(), KoinComponent {
             }
         }
 
-        val result = Result(false)
+        val result = Result()
         result.setMessage("Done\n")
 
         return result

@@ -9,7 +9,8 @@ class Exit : AbstractCommand() {
 
     override fun action(data: Map<String, String?>): Result {
 
-        val result = Result(true)
+        val result = Result()
+        result.setExit(true)
 
         return result
     }

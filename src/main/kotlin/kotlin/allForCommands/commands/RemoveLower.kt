@@ -32,7 +32,7 @@ class RemoveLower: AbstractCommand(), KoinComponent {
             orgs.remove(org)
         }
 
-        val result = Result(false)
+        val result = Result()
         result.setMessage("Done\n")
 
         return result

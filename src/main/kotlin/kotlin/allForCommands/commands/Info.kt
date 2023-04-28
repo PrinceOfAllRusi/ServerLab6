@@ -16,7 +16,7 @@ class Info : AbstractCommand(), KoinComponent {
         s.append( "Тип коллекции " + orgs.javaClass.toString() + "\n" )
         s.append( "Дата инициализации " + orgs.getCreationDate() + "\n" )
         s.append( "Количество элементов " + orgs.size + "\n" )
-        val result = Result(false)
+        val result = Result()
         result.setMessage(s.toString())
 
         return result

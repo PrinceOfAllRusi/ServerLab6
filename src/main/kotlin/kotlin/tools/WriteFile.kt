@@ -9,7 +9,7 @@ import java.io.IOException
 class WriteFile {
     fun write(way: String, dataStr: String): Result? {
         val env = way
-        val result = Result(false)
+        val result = Result()
 
         val path = System.getenv(env)
         if (path == null) {

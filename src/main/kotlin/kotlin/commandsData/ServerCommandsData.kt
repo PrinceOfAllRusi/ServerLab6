@@ -2,7 +2,7 @@ package transmittedData
 
 import allForCommands.commands.*
 
-class SendCommandsData {
+class ServerCommandsData {
     private var mapCommands: Map<String, Map<String, Map<String, String>>>
     constructor(){
         mapCommands = mapOf("help" to Help().getFields(),

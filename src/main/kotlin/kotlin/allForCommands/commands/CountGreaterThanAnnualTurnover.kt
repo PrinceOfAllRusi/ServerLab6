@@ -25,7 +25,7 @@ class CountGreaterThanAnnualTurnover: AbstractCommand(), KoinComponent {
             }
         }
 
-        val result = Result(false)
+        val result = Result()
         result.setMessage(count.toString() + "\n")
 
         return result

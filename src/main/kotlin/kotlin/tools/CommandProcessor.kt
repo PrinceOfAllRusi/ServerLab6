@@ -14,21 +14,23 @@ import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress
 import java.time.LocalDateTime
-import transmittedData.SendCommandsData
-import CommandsData.ReceiveCommandsData
+import transmittedData.ServerCommandsData
+import CommandsData.ClientCommandsData
+import tools.DataList
 
 
 class CommandProcessor: KoinComponent {
 
     private val commandsList: CommandsList by inject()
+    private val clientList: DataList by inject()
 
     fun process(input: Input) {
 
-        var result: Result? = Result(false)
+        var result: Result? = Result()
         var mapData: Map<String, String?>
 
         var command = ""
-        var receiveCommandsData = ReceiveCommandsData() //получаемые от клиента данные
+        var receiveCommandsData = ClientCommandsData() //получаемые от клиента данные
 
         //инициализирую все, что требуется для передачи данных
         var port = 6789
@@ -48,39 +50,39 @@ class CommandProcessor: KoinComponent {
         mapper.registerModule(module)
         var xml = ""
 
-
-        val commandsData = SendCommandsData() //список команд с требуемыми параметрами, который отправляется клиенту
-        xml = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(commandsData)
-
-        serverSocket.receive(inputPacket)
-        sendingDataBuffer = xml.toByteArray()
-        port = inputPacket.port
-        host = inputPacket.address
-
-        outputPacket = DatagramPacket(sendingDataBuffer, sendingDataBuffer.size, host, port)
-        serverSocket.send(outputPacket) // отправляю список команд клиенту
-
-        var receiveMassage = "" //TODO временно
+        val commandsData = ServerCommandsData() //список команд с требуемыми параметрами, который отправляется клиенту
+        val xmlCommands = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(commandsData)
+        sendingDataBuffer = xmlCommands.toByteArray()
 
         while ( true ) {
-
-            receiveMassage = "" //TODO временно
-
             serverSocket.receive(inputPacket)
+            port = inputPacket.port
+            host = inputPacket.address
+
+            if (clientList.getAddressList().size == 0 ||
+                !clientList.getAddressList().contains(port.toString() + host.toString())) {
+
+                clientList.getAddressList().add(port.toString() + host.toString())
+
+                outputPacket = DatagramPacket(sendingDataBuffer, sendingDataBuffer.size, host, port)
+                serverSocket.send(outputPacket) // отправляю список команд клиенту
+                continue
+            }
+
             xml = String(inputPacket.data, 0, inputPacket.length)
 
-            receiveCommandsData = mapper.readValue<ReceiveCommandsData>(xml)
+            receiveCommandsData = mapper.readValue<ClientCommandsData>(xml)
 
             command = receiveCommandsData.getName()
 
             result?.setMessage("")
 
             if ( !commandsList.containsCommand(command) ) {
-                receiveMassage = "Такой команды не существует\n"
+                result!!.setMessage("Такой команды не существует\n")
             }
             else {
                 try {
-                    mapData = receiveCommandsData.getMapCommands()
+                    mapData = receiveCommandsData.getMapData()
                     result = commandsList.getCommand(command)?.action(mapData)
 
                 } catch ( e: NumberFormatException ) {
@@ -93,19 +95,14 @@ class CommandProcessor: KoinComponent {
                 }
             }
 
-            receiveMassage = result?.getMessage().toString()
-
             if (result?.getExit() == true) {
-                break
+                clientList.getAddressList().remove(port.toString() + host.toString())
+                result.setExit(false)
             }
 
-            xml = mapper.writeValueAsString(receiveMassage)
+            xml = mapper.writeValueAsString(result)
 
             sendingDataBuffer = xml.toByteArray()
-            port = inputPacket.port
-            host = inputPacket.address
-
-//            System.out.println(xml)
 
             outputPacket = DatagramPacket(sendingDataBuffer, sendingDataBuffer.size, host, port)
             serverSocket.send(outputPacket)

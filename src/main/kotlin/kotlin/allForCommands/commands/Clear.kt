@@ -14,7 +14,7 @@ class Clear: AbstractCommand(), KoinComponent {
 
     override fun action(data: Map<String, String?>): Result {
         orgs.clear()
-        val result = Result(false)
+        val result = Result()
         result.setMessage("Done\n")
 
         return result

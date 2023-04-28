@@ -19,7 +19,7 @@ class Show: AbstractCommand(), KoinComponent {
         for (org in orgs) {
             s.append(org.toString() + "\n")
         }
-        val result = Result(false)
+        val result = Result()
         result.setMessage(s.toString())
 
         return result

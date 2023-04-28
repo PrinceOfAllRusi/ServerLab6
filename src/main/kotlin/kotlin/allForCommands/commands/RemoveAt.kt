@@ -22,7 +22,7 @@ class RemoveAt: AbstractCommand(), KoinComponent {
         val index = data["value"]!!.toInt()
         orgs.removeAt(index)
 
-        val result = Result(false)
+        val result = Result()
         result.setMessage("Done\n")
 
         return result

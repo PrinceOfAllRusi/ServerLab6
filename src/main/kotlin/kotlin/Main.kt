@@ -1,7 +1,14 @@
+import com.fasterxml.jackson.databind.module.SimpleModule
+import com.fasterxml.jackson.dataformat.xml.XmlMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import modul.SingletonObject.mod
 import tools.CommandProcessor
 import org.koin.core.context.GlobalContext.startKoin
+import serializ.TimeSerializer
 import tools.input.InputFile
+import tools.result.Result
+import tools.serializ.TimeDeserializer
+import java.time.LocalDateTime
 
 fun main() {
 
@@ -9,10 +16,7 @@ fun main() {
         modules(mod)
     }
 
-
- //   val convertor = ConversionXMLtoObject()
     val input = InputFile("")
- //   convertor.convert(input)
 
     val commandProcessor: CommandProcessor = CommandProcessor()
     commandProcessor.process(input)
@@ -26,15 +30,13 @@ fun main() {
 //    mapper.registerModule(module)
 //    var xml = ""
 //
-//    val map1: Map<String, String> = mapOf("one" to "one", "two" to "two")
+//    val result1 = Result(false)
+//    result1.setMessage("Message")
 //
-//    System.out.println(map1)
+//    xml = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(result1)
+//    val result2 = mapper.readValue<Result>(xml)
 //
-//    xml = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map1)
-//
+//    System.out.println(result1.getMessage())
 //    System.out.println(xml)
-//
-//    val map2: Map<String, String> = mapper.readValue<Map<String, String>>(xml)
-//
-//    System.out.println(map2)
+//    System.out.println(result2.getMessage())
 //}

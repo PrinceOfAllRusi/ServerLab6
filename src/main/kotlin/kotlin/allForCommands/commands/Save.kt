@@ -24,7 +24,7 @@ class Save: AbstractCommand(), KoinComponent {
 
         writer.write(wayOrgs, orgsXML)
 
-        val result = Result(false)
+        val result = Result()
         result.setMessage("Done\n")
 
         return result

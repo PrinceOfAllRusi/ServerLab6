@@ -13,7 +13,7 @@ class Help : AbstractCommand(), KoinComponent {
     private var fields: Map<String, Map<String, String>> = mapOf()
     override fun action(data: Map<String, String?>): Result {
 
-        val result = Result(false)
+        val result = Result()
         result.setMessage(commandsList.getDescription() + "\n")
 
         return result
