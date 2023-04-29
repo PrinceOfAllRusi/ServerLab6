@@ -13,17 +13,20 @@ class RemoveAt: AbstractCommand(), KoinComponent {
     private var fields: Map<String, Map<String, String>> = mapOf(
         "value" to mapOf<String, String>(
             "type" to "Int",
-            "min" to "1"
+            "min" to "-1"
         )
     )
 
     override fun action(data: Map<String, String?>): Result {
 
         val index = data["value"]!!.toInt()
-        orgs.removeAt(index)
-
         val result = Result()
-        result.setMessage("Done\n")
+        try {
+            orgs.removeAt(index)
+            result.setMessage("Done\n")
+        } catch (e: IndexOutOfBoundsException) {
+            result.setMessage("Неверные данные\n")
+        }
 
         return result
     }

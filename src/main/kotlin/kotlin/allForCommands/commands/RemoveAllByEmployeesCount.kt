@@ -14,24 +14,27 @@ class RemoveAllByEmployeesCount : AbstractCommand(), KoinComponent {
     private var fields: Map<String, Map<String, String>> = mapOf(
         "value" to mapOf<String, String>(
             "type" to "Int",
-            "min" to "1"
+            "min" to "0"
         )
     )
     override fun action(data: Map<String, String?>): Result {
 
         val count = data["value"]!!.toInt()
         val newOrgs = MyCollection<Organization>()
+        val result = Result()
 
         for ( org in orgs ) {
             if ( org.getEmployeesCount()!! == count ) {
                 newOrgs.add(org)
             }
         }
+        if (newOrgs.size == 0) {
+            result.setMessage("Таких организаций не найдено\n")
+            return result
+        }
         for ( org in newOrgs ) {
             orgs.remove(org)
         }
-
-        val result = Result()
         result.setMessage("Done\n")
 
         return result

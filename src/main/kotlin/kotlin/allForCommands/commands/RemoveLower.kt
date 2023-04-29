@@ -24,7 +24,7 @@ class RemoveLower: AbstractCommand(), KoinComponent {
         val newOrgs = MyCollection<Organization>()
 
         for ( org in orgs ) {
-            if ( org.getEmployeesCount()!! < count ) {
+            if ( org.getPostalAddressStreet().length < count ) {
                 newOrgs.add(org)
             }
         }

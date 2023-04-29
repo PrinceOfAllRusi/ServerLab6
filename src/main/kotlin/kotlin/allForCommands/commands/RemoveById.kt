@@ -1,10 +1,12 @@
 package allForCommands.commands
 
+import com.sun.org.apache.xpath.internal.operations.Bool
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import organization.MyCollection
 import organization.Organization
 import tools.result.Result
+import javax.swing.text.StyledEditorKit.BoldAction
 
 
 class RemoveById: AbstractCommand(), KoinComponent {
@@ -21,16 +23,18 @@ class RemoveById: AbstractCommand(), KoinComponent {
     override fun action(data: Map<String, String?>): Result {
 
         val id: Int = data["value"]!!.toInt()
+        var condition: Boolean = false
 
         for ( org in orgs ) {
             if ( org.getId() == id ) {
                 orgs.remove( org )
+                condition = true
                 break
             }
         }
-
         val result = Result()
-        result.setMessage("Done\n")
+        if (condition) result.setMessage("Done\n")
+        else result.setMessage("Такой огранизации нет в колекции\n")
 
         return result
     }

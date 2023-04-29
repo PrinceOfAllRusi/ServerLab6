@@ -2,10 +2,10 @@ package organization
 
 class OrganizationComparator : Comparator<Organization?> {
     override fun compare(a: Organization?, b: Organization?): Int {
-        if (a!!.getPostalAddressZipCode() === b!!.getPostalAddressZipCode()) {
+        if (a!!.getPostalAddressStreet().length == b!!.getPostalAddressStreet().length) {
             return 0
         }
-        return if ( a!!.getPostalAddressZipCode() > b!!.getPostalAddressZipCode() ) {
+        return if ( a.getPostalAddressStreet().length > b.getPostalAddressStreet().length ) {
             1
         } else {
             -1

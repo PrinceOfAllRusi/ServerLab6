@@ -2,12 +2,12 @@ package CommandsData
 
 class ClientCommandsData {
     private var name: String
-    private var mapData: Map<String, String?>
+    private var mapData: Map<String, String>
     constructor(){
         name = ""
         mapData = mapOf()
     }
-    constructor (name: String, mapCommands: Map<String, String?>) {
+    constructor (name: String, mapCommands: Map<String, String>) {
         this.name = name
         this.mapData = mapCommands
     }

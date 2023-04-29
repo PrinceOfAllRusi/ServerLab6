@@ -66,6 +66,7 @@ class CommandProcessor: KoinComponent {
 
                 outputPacket = DatagramPacket(sendingDataBuffer, sendingDataBuffer.size, host, port)
                 serverSocket.send(outputPacket) // отправляю список команд клиенту
+
                 continue
             }
 
@@ -94,18 +95,17 @@ class CommandProcessor: KoinComponent {
                     input.outMsg("Введены не все данные\n")
                 }
             }
-
-            if (result?.getExit() == true) {
-                clientList.getAddressList().remove(port.toString() + host.toString())
-                result.setExit(false)
-            }
-
             xml = mapper.writeValueAsString(result)
 
             sendingDataBuffer = xml.toByteArray()
 
             outputPacket = DatagramPacket(sendingDataBuffer, sendingDataBuffer.size, host, port)
             serverSocket.send(outputPacket)
+
+            if (result?.getExit() == true) {
+                clientList.getAddressList().remove(port.toString() + host.toString())
+                result.setExit(false)
+            }
 
         }
 

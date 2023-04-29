@@ -21,7 +21,7 @@ object SingletonObject {
             "info" to Info(), "show" to Show(), "add" to Add(),
             "update" to Update(), "remove_by_id" to RemoveById(),
             "clear" to Clear(), "execute_script" to ExecuteScript(),
-            "exit" to Exit(), "insert_at" to InsertAt(),
+            "exit" to Save(), "insert_at" to InsertAt(),
             "remove_at" to RemoveAt(), "remove_lower" to RemoveLower(),
             "remove_all_by_employees_count" to RemoveAllByEmployeesCount(),
             "count_greater_than_annual_turnover" to CountGreaterThanAnnualTurnover(),
