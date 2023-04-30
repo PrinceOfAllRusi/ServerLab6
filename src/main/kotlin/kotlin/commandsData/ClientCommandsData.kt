@@ -2,12 +2,12 @@ package CommandsData
 
 class ClientCommandsData {
     private var name: String
-    private var mapData: Map<String, String>
+    private var mapData: MutableMap<String, String>
     constructor(){
         name = ""
-        mapData = mapOf()
+        mapData = mutableMapOf()
     }
-    constructor (name: String, mapCommands: Map<String, String>) {
+    constructor (name: String, mapCommands: MutableMap<String, String>) {
         this.name = name
         this.mapData = mapCommands
     }
@@ -16,7 +16,7 @@ class ClientCommandsData {
         this.name = name
     }
     fun getMapData() = mapData
-    fun setMapData(mapCommands: Map<String, String>) {
+    fun setMapData(mapCommands: MutableMap<String, String>) {
         this.mapData = mapCommands
     }
 }

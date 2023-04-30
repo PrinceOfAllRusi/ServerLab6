@@ -7,7 +7,7 @@ import org.koin.core.component.inject
 import organization.MyCollection
 import organization.Organization
 import serializ.TimeSerializer
-import tools.WriteFile
+import tools.file.WriteFile
 import tools.result.Result
 import tools.serializ.TimeDeserializer
 import java.time.LocalDateTime

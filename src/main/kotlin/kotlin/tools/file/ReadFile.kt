@@ -1,4 +1,4 @@
-package tools
+package tools.file
 
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -8,22 +8,10 @@ import java.io.FileNotFoundException
 import java.io.IOException
 import java.io.InputStreamReader
 
-
-/**
- * Read file
- *
- * @constructor Create empty Read file
- */
 class ReadFile: KoinComponent {
 
     private val absoluteWay: ArrayList<String> by inject()
 
-    /**
-     * Read
-     *
-     * @param input
-     * @return
-     */
     fun read(input: Input): String? {
 
         val env = input.getNextWord("Введите переменную окружения, содержащую путь к файлу\n")

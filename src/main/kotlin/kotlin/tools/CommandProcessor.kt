@@ -16,6 +16,7 @@ import java.net.InetAddress
 import java.time.LocalDateTime
 import transmittedData.ServerCommandsData
 import CommandsData.ClientCommandsData
+import serializ.Serializer
 import tools.DataList
 
 
@@ -28,6 +29,7 @@ class CommandProcessor: KoinComponent {
 
         var result: Result? = Result()
         var mapData: Map<String, String?>
+        val serializer = Serializer()
 
         var command = ""
         var receiveCommandsData = ClientCommandsData() //получаемые от клиента данные
@@ -42,16 +44,10 @@ class CommandProcessor: KoinComponent {
         var outputPacket: DatagramPacket
         var receivedData = ""
 
-        //создаю объект, который сериализует данные
-        val mapper = XmlMapper()
-        val module = SimpleModule()
-        module.addSerializer(LocalDateTime::class.java, TimeSerializer())
-        module.addDeserializer(LocalDateTime::class.java, TimeDeserializer())
-        mapper.registerModule(module)
         var xml = ""
 
         val commandsData = ServerCommandsData() //список команд с требуемыми параметрами, который отправляется клиенту
-        val xmlCommands = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(commandsData)
+        val xmlCommands = serializer.serialize(commandsData)
         sendingDataBuffer = xmlCommands.toByteArray()
 
         while ( true ) {
@@ -72,7 +68,7 @@ class CommandProcessor: KoinComponent {
 
             xml = String(inputPacket.data, 0, inputPacket.length)
 
-            receiveCommandsData = mapper.readValue<ClientCommandsData>(xml)
+            receiveCommandsData = serializer.deserialize(xml)
 
             command = receiveCommandsData.getName()
 
@@ -95,7 +91,7 @@ class CommandProcessor: KoinComponent {
                     input.outMsg("Введены не все данные\n")
                 }
             }
-            xml = mapper.writeValueAsString(result)
+            xml = serializer.serialize(result)
 
             sendingDataBuffer = xml.toByteArray()
 
@@ -104,6 +100,7 @@ class CommandProcessor: KoinComponent {
 
             if (result?.getExit() == true) {
                 clientList.getAddressList().remove(port.toString() + host.toString())
+                sendingDataBuffer = xmlCommands.toByteArray()
                 result.setExit(false)
             }
 
